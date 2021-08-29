@@ -24,6 +24,7 @@ class App extends Component {
     state = {
         users: [],
         user: {},
+        repos: [],
         loading: false,
         alert: null
     }
@@ -69,9 +70,26 @@ class App extends Component {
         })
     }
 
+    // get users repos
+    getUserRepos = async(username) => {
+        this.setState({
+            loading: true
+        });
+
+        const res = await axios.get(`https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc`) // ?client_ids=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+        
+        this.setState({
+            user: res.data,
+            loading: false
+        })
+    }
+
     // clear Users
-    clearUsers = () => {
-        this.setState({ users: [], loading: false })
+    clearUsers = () => {        
+        window.location.reload();
+        this.setState({
+            loading: false
+        })
     }
 
     // set Alert 
@@ -88,7 +106,7 @@ class App extends Component {
     }
 
     render() {
-        const { users, user, loading } = this.state;
+        const { users, user, repos, loading } = this.state;
         return (
             <Router>
                 <div className='App'>
@@ -119,12 +137,15 @@ class App extends Component {
                             <Route exact path='/about' component={About}></Route>
                             <Route exact path='/user/:login' render={
                                 props => (
-                                    <User { ...props } getUser={this.getUser} user={user} loading={loading}></User>
+                                    <User { ...props } getUser={this.getUser}
+                                        getUserRepos={this.getUserRepos} 
+                                        user={user}
+                                        repos={repos}
+                                        loading={loading}>
+                                    </User>
                                 )                                
                             }></Route>
-                        </Switch>
-
-                        
+                        </Switch>                        
                     </div>        
                 </div>
             </Router>
