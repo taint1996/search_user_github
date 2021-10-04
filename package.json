@@ -17,7 +17,7 @@
   "bugs": {
     "url": "https://github.com/taint1996/search_user_github/issues"
   },
-  "homepage": "https://github.com/taint1996/search_user_github#readme",
+  "homepage": ".",
   "dependencies": {
     "axios": "^0.18.1",
     "react": "^16.8.6",

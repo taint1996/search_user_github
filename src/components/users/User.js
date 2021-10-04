@@ -6,6 +6,7 @@ import GithubContext from "../../context/github/githubContext";
 
 const User = ({ match }) => {
   const githubContext = useContext(GithubContext);
+
   const { getUser, loading, user, repos, getUserRepos } = githubContext;
 
   useEffect(() => {
@@ -16,6 +17,7 @@ const User = ({ match }) => {
 
   const {
     name,
+    company,
     avatar_url,
     location,
     bio,
@@ -27,7 +29,6 @@ const User = ({ match }) => {
     public_repos,
     public_gists,
     hireable,
-    company,
   } = user;
 
   if (loading) return <Spinner />;
@@ -35,7 +36,7 @@ const User = ({ match }) => {
   return (
     <Fragment>
       <Link to="/" className="btn btn-light">
-        Back to Search
+        Back To Search
       </Link>
       Hireable:{" "}
       {hireable ? (
@@ -61,12 +62,7 @@ const User = ({ match }) => {
               <p>{bio}</p>
             </Fragment>
           )}
-          <a
-            href={html_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-dark my-1"
-          >
+          <a href={html_url} className="btn btn-dark my-1">
             Visit Github Profile
           </a>
           <ul>
@@ -105,6 +101,6 @@ const User = ({ match }) => {
       <Repos repos={repos} />
     </Fragment>
   );
-}
+};
 
 export default User;
